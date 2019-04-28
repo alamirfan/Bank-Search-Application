@@ -34,11 +34,6 @@
             
             table#tableId th {
                 background-color: #0066b3;
-                color: #0066b3;
-            }
-            
-            table#tcss th {
-                background-color: #0066b3;
                 color: #fff;
             }
             
@@ -126,20 +121,25 @@
 
     <input type="text" id="search" onkeyup="searchFunction()" placeholder="Search Everywhere">
     <input type="text" id="searchThisPage" onkeyup="searchFunction()" placeholder="Search on this page">
-    <table id="tcss">
-        <tr>
-            <th>#</th>
-            <th>Bank Name</th>
-            <th>IFSC</th>
-            <th>Branch</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>District</th>
-            <th>State</th>
-        </tr>
+    
+    <table id="tableId">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Bank Name</th>
+                <th>IFSC</th>
+                <th>Branch</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>District</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+
+        </tbody>
     </table>
     <div id="loader" style="text-align: center"><img src="https://i.imgur.com/TygKisP.gif" alt="Loader gif" height="150px;"></div>
-    <table id="tableId"></table>
 
     <script>
         $(document).ready(function() {
@@ -147,7 +147,7 @@
             changeValue("BANGALORE");
 
             $("#changeLocation").change(function() {
-                $("#tableId").empty();
+                $("#tableBody").empty();
                 $("#nav").empty();
                 checkCache($('#changeLocation').find(":selected").val());
             });
@@ -181,9 +181,9 @@
         });
 
         function setValue(answer) {
-            $("#tableId").empty();
+            $("#tableBody").empty();
             var pageSize = $('#changePageSize').find(":selected").val();
-            var table = document.getElementById("tableId");
+            var table = document.getElementById("tableBody");
                         for (var i = 0; i < answer.length; i++) {
                             var tr = document.createElement('tr');
                             var td1 = document.createElement('td');
@@ -231,22 +231,22 @@
 
         function paginate(size) {
             $("#nav").empty();
-            $('#tableId tr').css('opacity', '1.0');
-            $('#tableId tr').css('display', '');
+            $('#tableBody tr').css('opacity', '1.0');
+            $('#tableBody tr').css('display', '');
             $('#tableId').after('<div id="nav"></div>');
             if(size){
                 var rowsShown = parseInt(size);
             } else {
                 var rowsShown = 50;
             }
-            var rowsTotal = $('#tableId tr').length;
+            var rowsTotal = $('#tableBody tr').length;
             var numPages = rowsTotal / rowsShown;
             for (i = 0; i < numPages; i++) {
                 var pageNum = i + 1;
                 $('#nav').append('<li><a href="#" rel="' + i + '">' + pageNum + '</a> </li>');
             }
-            $('#tableId tr').hide();
-            $('#tableId tr').slice(0, rowsShown).show();
+            $('#tableBody tr').hide();
+            $('#tableBody tr').slice(0, rowsShown).show();
             $('#nav a:first').addClass('active');
             $('#nav a').bind('click', function() {
                 
@@ -255,7 +255,7 @@
                 var currPage = $(this).attr('rel');
                 var startItem = currPage * rowsShown;
                 var endItem = startItem + rowsShown;
-                $('#tableId tr').css('opacity', '0.0').hide().slice(startItem, endItem).
+                $('#tableBody tr').css('opacity', '0.0').hide().slice(startItem, endItem).
                 css('display', 'table-row').animate({
                     opacity: 1
                 }, 300);
@@ -271,7 +271,7 @@
                 }, 300);
             }
             filter = input.value.toUpperCase();
-            table = document.getElementById("tableId");
+            table = document.getElementById("tableBody");
             tr = table.getElementsByTagName("tr");
 
             for (i = 0; i < tr.length; i++) {
