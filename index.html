@@ -3,94 +3,94 @@
 <head>
     <title>Bank Search Application</title>
     <style>
-            * {
-                margin: 0;
-                box-sizing: border-box;
-            }
-            
-            table {
-                width: 100%;
-            }
-            
-            table,
-            th,
-            td {
-                border-collapse: collapse;
-            }
-            
-            th,
-            td {
-                padding: 15px;
-                text-align: left;
-            }
-            
-            table#tableId tr:nth-child(even) {
-                background-color: #eee;
-            }
-            
-            table#tableId tr:nth-child(odd) {
-                background-color: #fff;
-            }
-            
-            table#tableId th {
-                background-color: #0066b3;
-                color: #fff;
-            }
-            
-            input[type=text],
-            select {
-                padding: 12px 20px;
-                margin: 8px 0px;
-                display: inline-block;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                box-sizing: border-box;
-            }
-            
-            input[type=text] {
-                width: 35%;
-            }
-            
-            #changeLocation {
-                width: 20%;
-            }
-    
-            #changePageSize{
-                margin-left: 0.5%;
-                width: 8%;
-            }
-            
-            li {
-                float: left;
-                list-style-type: none;
-            }
-            
-            li a {
-                display: block;
-                color: #009000;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-            
-            li a:hover {
-                background-color: #0066b3;
-                color: #fff;
-            }
-            
-            .active {
-                background-color: #0066b3;
-                color: #fff;
-            }
-            
-            .top-navbar {
-                text-align: center;
-                color: #fff;
-                background-color: #000;
-                padding: 15;
-                font-size: 40px;
-            }
-        </style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+        
+        table {
+            width: 100%;
+        }
+        
+        table,
+        th,
+        td {
+            border-collapse: collapse;
+        }
+        
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+        }
+        
+        table#tableId tr:nth-child(even) {
+            background-color: #eee;
+        }
+        
+        table#tableId tr:nth-child(odd) {
+            background-color: #fff;
+        }
+        
+        table#tableId th {
+            background-color: #0066b3;
+            color: #fff;
+        }
+        
+        input[type=text],
+        select {
+            padding: 12px 20px;
+            margin: 8px 0px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        input[type=text] {
+            width: 35%;
+        }
+        
+        #changeLocation {
+            width: 20%;
+        }
+        
+        #changePageSize {
+            margin-left: 0.5%;
+            width: 8%;
+        }
+        
+        li {
+            float: left;
+            list-style-type: none;
+        }
+        
+        li a {
+            display: block;
+            color: #009000;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        
+        li a:hover {
+            background-color: #0066b3;
+            color: #fff;
+        }
+        
+        .active {
+            background-color: #0066b3;
+            color: #fff;
+        }
+        
+        .top-navbar {
+            text-align: center;
+            color: #fff;
+            background-color: #000;
+            padding: 15;
+            font-size: 40px;
+        }
+    </style>
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -104,12 +104,12 @@
         Bank Search Application
     </div>
     <select id="changePageSize">
-            <option value="50">50</option>
-            <option value="100">100</option>
-            <option value="200">200</option>
-            <option value="500">500</option>
-            <option value="1000">1000</option>
-        </select>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+        <option value="500">500</option>
+        <option value="1000">1000</option>
+    </select>
 
     <select id="changeLocation">
         <option value="BANGALORE">Bangalore</option>
@@ -121,7 +121,7 @@
 
     <input type="text" id="search" onkeyup="searchFunction('everywhere')" placeholder="Search Everywhere">
     <input type="text" id="searchThisPage" onkeyup="searchFunction('thisPage')" placeholder="Search this Page">
-    
+
     <table id="tableId">
         <thead>
             <tr>
@@ -157,7 +157,7 @@
             });
 
             function checkCache(city) {
-                if(tempCache[city] == undefined) {
+                if (tempCache[city] == undefined) {
                     changeValue(city);
                 } else {
                     setValue(tempCache[city]);
@@ -184,49 +184,49 @@
             $("#tableBody").empty();
             var pageSize = $('#changePageSize').find(":selected").val();
             var table = document.getElementById("tableBody");
-                        for (var i = 0; i < answer.length; i++) {
-                            var tr = document.createElement('tr');
-                            var td1 = document.createElement('td');
-                            var td2 = document.createElement('td');
-                            var td3 = document.createElement('td');
-                            var td4 = document.createElement('td');
-                            var td5 = document.createElement('td');
-                            var td6 = document.createElement('td');
-                            var td7 = document.createElement('td');
-                            var td8 = document.createElement('td');
+            for (var i = 0; i < answer.length; i++) {
+                var tr = document.createElement('tr');
+                var td1 = document.createElement('td');
+                var td2 = document.createElement('td');
+                var td3 = document.createElement('td');
+                var td4 = document.createElement('td');
+                var td5 = document.createElement('td');
+                var td6 = document.createElement('td');
+                var td7 = document.createElement('td');
+                var td8 = document.createElement('td');
 
-                            var col1 = document.createTextNode(i + 1);
-                            var col2 = document.createTextNode(answer[i]["bank_name"])
-                            var col3 = document.createTextNode(answer[i]["ifsc"])
-                            var col4 = document.createTextNode(answer[i]["branch"])
-                            var col5 = document.createTextNode(answer[i]["address"])
-                            var col6 = document.createTextNode(answer[i]["city"])
-                            var col7 = document.createTextNode(answer[i]["district"])
-                            var col8 = document.createTextNode(answer[i]["state"])
+                var col1 = document.createTextNode(i + 1);
+                var col2 = document.createTextNode(answer[i]["bank_name"])
+                var col3 = document.createTextNode(answer[i]["ifsc"])
+                var col4 = document.createTextNode(answer[i]["branch"])
+                var col5 = document.createTextNode(answer[i]["address"])
+                var col6 = document.createTextNode(answer[i]["city"])
+                var col7 = document.createTextNode(answer[i]["district"])
+                var col8 = document.createTextNode(answer[i]["state"])
 
-                            td1.appendChild(col1);
-                            td2.appendChild(col2);
-                            td3.appendChild(col3);
-                            td4.appendChild(col4);
-                            td5.appendChild(col5);
-                            td6.appendChild(col6);
-                            td7.appendChild(col7);
-                            td8.appendChild(col8);
+                td1.appendChild(col1);
+                td2.appendChild(col2);
+                td3.appendChild(col3);
+                td4.appendChild(col4);
+                td5.appendChild(col5);
+                td6.appendChild(col6);
+                td7.appendChild(col7);
+                td8.appendChild(col8);
 
-                            tr.appendChild(td1);
-                            tr.appendChild(td2);
-                            tr.appendChild(td3);
-                            tr.appendChild(td4);
-                            tr.appendChild(td5);
-                            tr.appendChild(td6);
-                            tr.appendChild(td7);
-                            tr.appendChild(td8);
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.appendChild(td5);
+                tr.appendChild(td6);
+                tr.appendChild(td7);
+                tr.appendChild(td8);
 
-                            table.appendChild(tr);
-                        }
-                        
-                        paginate(pageSize);
-                        $("#loader").hide()
+                table.appendChild(tr);
+            }
+
+            paginate(pageSize);
+            $("#loader").hide()
         }
 
         function paginate(size) {
@@ -234,7 +234,7 @@
             $('#tableBody tr').css('opacity', '1.0');
             $('#tableBody tr').css('display', '');
             $('#tableId').after('<div id="nav"></div>');
-            if(size){
+            if (size) {
                 var rowsShown = parseInt(size);
             } else {
                 var rowsShown = 50;
@@ -250,7 +250,7 @@
             $('#tableBody tr').slice(0, rowsShown).addClass('visible');
             $('#nav a:first').addClass('active');
             $('#nav a').bind('click', function() {
-                
+
                 $('#nav a').removeClass('active');
                 $(this).addClass('active');
                 var currPage = $(this).attr('rel');
@@ -267,19 +267,20 @@
 
         function searchFunction(param) {
             var input, filter, table, tr, td, i;
-            if(param == "everywhere"){
+            if (param == "everywhere") {
                 input = document.getElementById("search");
                 tr = $("#tableId tbody tr");
                 if (input.value.length == 0) {
-                setTimeout(function() {
-                    paginate();
-                }, 300);
-            }
+                    var pageSize = $('#changePageSize').find(":selected").val();
+                    setTimeout(function() {
+                        paginate(pageSize);
+                    }, 300);
+                }
             } else {
                 input = document.getElementById("searchThisPage");
                 tr = $("#tableId tbody tr.visible");
             }
-            
+
             filter = input.value.toUpperCase();
 
             for (i = 0; i < tr.length; i++) {
