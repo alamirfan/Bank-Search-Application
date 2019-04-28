@@ -1,0 +1,259 @@
+<html>
+
+<head>
+    <title>Bank Search Application</title>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+        
+        table {
+            width: 100%;
+        }
+        
+        table,
+        th,
+        td {
+            border-collapse: collapse;
+        }
+        
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+        }
+        
+        table#tableId tr:nth-child(even) {
+            background-color: #eee;
+        }
+        
+        table#tableId tr:nth-child(odd) {
+            background-color: #fff;
+        }
+        
+        table#tableId th {
+            background-color: #0066b3;
+            color: #0066b3;
+        }
+        
+        table#tcss th {
+            background-color: #0066b3;
+            color: #fff;
+        }
+        
+        input[type=text],
+        select {
+            width: 20%;
+            padding: 12px 20px;
+            margin: 8px 0px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        input[type=text] {
+            width: 78%;
+        }
+        
+        select {
+            margin-left: 1%;
+        }
+        
+        li {
+            float: left;
+            list-style-type: none;
+        }
+        
+        li a {
+            display: block;
+            color: #009000;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        
+        li a:hover {
+            background-color: #0066b3;
+            color: #fff;
+        }
+        
+        .active {
+            background-color: #0066b3;
+            color: #fff;
+        }
+        
+        .top-navbar {
+            text-align: center;
+            color: #fff;
+            background-color: #000;
+            padding: 15;
+            font-size: 40px;
+        }
+    </style>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <div class="top-navbar">
+        Bank Search Application
+    </div>
+    <select id="changeLocation">
+        <option value="BANGALORE">Bangalore</option>
+        <option value="DELHI">Delhi</option>
+        <option value="CHENNAI">Chennai</option>
+        <option value="MUMBAI">Mumbai</option>
+        <option value="KOLKATA">Kolkata</option>
+    </select>
+
+    <input type="text" id="search" onkeyup="searchFunction()" placeholder="Search Everywhere">
+    <table id="tcss">
+        <tr>
+            <th>#</th>
+            <th>Bank Name</th>
+            <th>IFSC</th>
+            <th>Branch</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>District</th>
+            <th>State</th>
+        </tr>
+    </table>
+    <div id="loader" style="text-align: center"><img src="https://i.imgur.com/TygKisP.gif" alt="Loader gif" height="150px;"></div>
+    <table id="tableId"></table>
+
+    <script>
+        $(document).ready(function() {
+
+            changeValue("BANGALORE");
+
+            $("#changeLocation").change(function() {
+                $("#nav").empty();
+                changeValue($('#changeLocation').find(":selected").val());
+            });
+
+            $("#rowNum").change(function() {
+                paginate($('#rowNum').find(":selected").val());
+            });
+
+            function changeValue(city) {
+                $("#loader").show();
+                $("#tableId").empty();
+                $.ajax({
+                    methon: "GET",
+                    url: "https://vast-shore-74260.herokuapp.com/banks",
+                    data: {
+                        city: city
+                    },
+                    success: function(answer) {
+                        var table = document.getElementById("tableId");
+                        for (var i = 0; i < 200; i++) {
+                            var tr = document.createElement('tr');
+                            var td1 = document.createElement('td');
+                            var td2 = document.createElement('td');
+                            var td3 = document.createElement('td');
+                            var td4 = document.createElement('td');
+                            var td5 = document.createElement('td');
+                            var td6 = document.createElement('td');
+                            var td7 = document.createElement('td');
+                            var td8 = document.createElement('td');
+
+                            var col1 = document.createTextNode(i + 1);
+                            var col2 = document.createTextNode(answer[i]["bank_name"])
+                            var col3 = document.createTextNode(answer[i]["ifsc"])
+                            var col4 = document.createTextNode(answer[i]["branch"])
+                            var col5 = document.createTextNode(answer[i]["address"])
+                            var col6 = document.createTextNode(answer[i]["city"])
+                            var col7 = document.createTextNode(answer[i]["district"])
+                            var col8 = document.createTextNode(answer[i]["state"])
+
+                            td1.appendChild(col1);
+                            td2.appendChild(col2);
+                            td3.appendChild(col3);
+                            td4.appendChild(col4);
+                            td5.appendChild(col5);
+                            td6.appendChild(col6);
+                            td7.appendChild(col7);
+                            td8.appendChild(col8);
+
+                            tr.appendChild(td1);
+                            tr.appendChild(td2);
+                            tr.appendChild(td3);
+                            tr.appendChild(td4);
+                            tr.appendChild(td5);
+                            tr.appendChild(td6);
+                            tr.appendChild(td7);
+                            tr.appendChild(td8);
+
+                            table.appendChild(tr);
+                        }
+
+                        paginate();
+                        $("#loader").hide()
+
+                    }
+                });
+            }
+        });
+
+        function paginate() {
+            $("#nav").empty()
+            $('#tableId').after('<div id="nav"></div>');
+            var rowsShown = 10;
+            var rowsTotal = $('#tableId tr').length;
+            var numPages = rowsTotal / rowsShown;
+            for (i = 0; i < numPages; i++) {
+                var pageNum = i + 1;
+                $('#nav').append('<li><a href="#" rel="' + i + '">' + pageNum + '</a> </li>');
+            }
+            $('#tableId tr').hide();
+            $('#tableId tr').slice(0, rowsShown).show();
+            $('#nav a:first').addClass('active');
+            $('#nav a').bind('click', function() {
+
+                $('#nav a').removeClass('active');
+                $(this).addClass('active');
+                var currPage = $(this).attr('rel');
+                var startItem = currPage * rowsShown;
+                var endItem = startItem + rowsShown;
+                $('#tableId tr').css('opacity', '0.0').hide().slice(startItem, endItem).
+                css('display', 'table-row').animate({
+                    opacity: 1
+                }, 300);
+            });
+        }
+
+        function searchFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("search");
+            if (input.value.length == 0) {
+                setTimeout(function() {
+                    paginate();
+                }, 300);
+            }
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tableId");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                        tr[i].style.opacity = "1";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+
+        }
+    </script>
+
+</body>
+
+</html>
