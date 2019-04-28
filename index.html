@@ -119,8 +119,8 @@
         <option value="KOLKATA">Kolkata</option>
     </select>
 
-    <input type="text" id="search" onkeyup="searchFunction()" placeholder="Search Everywhere">
-    <input type="text" id="searchThisPage" onkeyup="searchFunction()" placeholder="Search on this page">
+    <input type="text" id="search" onkeyup="searchFunction('everywhere')" placeholder="Search Everywhere">
+    <input type="text" id="searchThisPage" onkeyup="searchFunction('thisPage')" placeholder="Search this Page">
     
     <table id="tableId">
         <thead>
@@ -247,6 +247,7 @@
             }
             $('#tableBody tr').hide();
             $('#tableBody tr').slice(0, rowsShown).show();
+            $('#tableBody tr').slice(0, rowsShown).addClass('visible');
             $('#nav a:first').addClass('active');
             $('#nav a').bind('click', function() {
                 
@@ -255,24 +256,31 @@
                 var currPage = $(this).attr('rel');
                 var startItem = currPage * rowsShown;
                 var endItem = startItem + rowsShown;
+                $('#tableBody tr').removeClass('visible');
+                $('#tableBody tr').slice(startItem, endItem).addClass('visible');
                 $('#tableBody tr').css('opacity', '0.0').hide().slice(startItem, endItem).
-                css('display', 'table-row').animate({
+                css('display', '').animate({
                     opacity: 1
                 }, 300);
             });
         }
 
-        function searchFunction() {
+        function searchFunction(param) {
             var input, filter, table, tr, td, i;
-            input = document.getElementById("search");
-            if (input.value.length == 0) {
+            if(param == "everywhere"){
+                input = document.getElementById("search");
+                tr = $("#tableId tbody tr");
+                if (input.value.length == 0) {
                 setTimeout(function() {
                     paginate();
                 }, 300);
             }
+            } else {
+                input = document.getElementById("searchThisPage");
+                tr = $("#tableId tbody tr.visible");
+            }
+            
             filter = input.value.toUpperCase();
-            table = document.getElementById("tableBody");
-            tr = table.getElementsByTagName("tr");
 
             for (i = 0; i < tr.length; i++) {
                 td = tr[i];
